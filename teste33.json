@@ -6,18 +6,18 @@
   },
   "components": {
     "schemas": {
-      "Pagination": {
+      "PaginationParameters": {
         "type": "object",
         "properties": {
-          "totalResults": {
-            "type": "integer",
-            "description": "Total number of items available",
-            "example": 100
-          },
           "itemsPerPage": {
             "type": "integer",
             "description": "Number of items returned per page",
             "example": 10
+          },
+          "startIndex": {
+            "type": "integer",
+            "description": "The index of the first item in the current page",
+            "example": 0
           }
         }
       }
@@ -27,6 +27,26 @@
     "/items": {
       "get": {
         "summary": "Retrieve a list of items",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "totalResults",
+            "schema": {
+              "type": "integer",
+              "description": "Total number of items available",
+              "example": 100
+            }
+          },
+          {
+            "in": "query",
+            "name": "pagination",
+            "required": false,
+            "schema": {
+              "$ref": "#/components/schemas/PaginationParameters"
+            },
+            "style": "deepObject"
+          }
+        ],
         "responses": {
           "200": {
             "description": "A paginated list of items",
@@ -35,14 +55,6 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "pagination": {
-                      "$ref": "#/components/schemas/Pagination"
-                    },
-                    "startIndex": {
-                      "type": "integer",
-                      "description": "The index of the first item in the current page",
-                      "example": 0
-                    },
                     "items": {
                       "type": "array",
                       "items": {
