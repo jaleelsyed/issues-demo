@@ -1,0 +1,73 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Mixed Pagination API",
+    "version": "1.0.0"
+  },
+  "components": {
+    "schemas": {
+      "Pagination": {
+        "type": "object",
+        "properties": {
+          "totalResults": {
+            "type": "integer",
+            "description": "Total number of items available",
+            "example": 100
+          },
+          "itemsPerPage": {
+            "type": "integer",
+            "description": "Number of items returned per page",
+            "example": 10
+          }
+        }
+      }
+    }
+  },
+  "paths": {
+    "/items": {
+      "get": {
+        "summary": "Retrieve a list of items",
+        "responses": {
+          "200": {
+            "description": "A paginated list of items",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "pagination": {
+                      "$ref": "#/components/schemas/Pagination"
+                    },
+                    "startIndex": {
+                      "type": "integer",
+                      "description": "The index of the first item in the current page",
+                      "example": 0
+                    },
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "description": "The unique identifier for the item",
+                            "example": "item123"
+                          },
+                          "name": {
+                            "type": "string",
+                            "description": "The name of the item",
+                            "example": "Sample Item"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
